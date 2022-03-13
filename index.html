@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <div class="toolbar">
+        <div class="tool" id="pencil"><img src="./NewIcons/Black_Pencil.svg" alt="" class="tool-img">
+            <div class="size-box">
+                <!-- .size1+.size2+.size3 -->
+                <div class="size1 size"></div>
+                <div class="size2 size"></div>
+                <div class="size3 size"></div>
+                <div class="size4 size"></div>
+            </div>
+        </div>
+        <div class="tool" id="eraser"><img src="./NewIcons/Eraser.svg" alt="" class="tool-img">
+            <div class="size-box">
+                <!-- .size1+.size2+.size3 -->
+                <div class="size1 size"></div>
+                <div class="size2 size"></div>
+                <div class="size3 size"></div>
+                <div class="size4 size"></div>
+            </div>
+        </div>
+        <div class="tool" id="rect">
+            <!-- <img src="./NewIcons/CloseButton.svg" alt="" class="tool-img"> -->
+            <i class="fas fa-square" class="tool-img"></i>
+
+            <div class="size-box">
+                <!-- .size1+.size2+.size3 -->
+                <div class="size1 size"></div>
+                <div class="size2 size"></div>
+                <div class="size3 size"></div>
+                <div class="size4 size"></div>
+            </div>
+        </div>
+        <div class="tool" id="line">
+            <!-- <img src="./NewIcons/MoveIcon.svg" alt="" class="tool-img"> -->
+            <i class="fas fa-grip-lines-vertical"></i>
+            <div class="size-box">
+                <!-- .size1+.size2+.size3 -->
+                <div class="size1 size"></div>
+                <div class="size2 size"></div>
+                <div class="size3 size"></div>
+                <div class="size4 size"></div>
+            </div>
+        </div>
+        <div class="tool" id="sticky">
+            <!-- <img src="./NewIcons/MoveIcon.svg" alt="" class="tool-img"> -->
+            <!-- <i class="fas fa-grip-lines-vertical"></i> -->
+           <img src="./NewIcons/StickyNote.svg" alt="" class="tool-img">
+            </div>
+            <div class="color-container">
+                <div class="color red"></div>
+                <div class="color blue"></div>
+                <div class="color green"></div>
+            </div>
+        </div>
+
+    </div>
+    <canvas></canvas>
+    <script>
+        let canvasBoard = document.querySelector("canvas");
+        let tool = canvasBoard.getContext("2d");
+        canvasBoard.height = window.innerHeight;
+        canvasBoard.width = window.innerWidth;
+        tool.strokeStyle="lightpink";
+        let body = document.querySelector("body");
+        let boardTop = canvasBoard.getBoundingClientRect().top;
+        let boardLeft = canvasBoard.getBoundingClientRect().left;
+    </script>
+    <script>
+        let pencil = document.querySelector("#pencil");
+        let eraser = document.querySelector("#eraser");
+        let rect = document.querySelector("#rect");
+        let line = document.querySelector("#line");
+        let options = document.querySelectorAll(".size-box");
+        let ctool = "pencil";
+        // tool.strokeStyle="red";
+        pencil.addEventListener("click", function (e) {
+            if (ctool == "pencil") {
+                options[0].style.display = "flex";
+            }
+            else {
+                // eraser.style.border="1px solid red";
+                for (let i = 0; i < options.length; i++) {
+                    options[i].style.display = "none";
+                }
+                
+                ctool = "pencil";
+                tool.strokeStyle="lightpink";
+              //  tool.lineWidth=pencilSize;
+            }
+        })
+        eraser.addEventListener("click", function (e) {
+            if (ctool == "eraser") {
+                options[1].style.display = "flex";
+            }
+            else {
+                // eraser.style.border="1px solid red";
+                ctool = "eraser";
+                tool.strokeStyle="white";
+                for (let i = 0; i < options.length; i++) {
+                    options[i].style.display = "none";
+                }
+                tool.lineWidth=eraserSize;
+            }
+        })
+        rect.addEventListener("click", function (e) {
+            if (ctool == "rect") {
+                options[2].style.display = "flex";
+            }
+            else {
+                // eraser.style.border="1px solid red";
+                for (let i = 0; i < options.length; i++) {
+                    options[i].style.display = "none";
+                }
+                ctool = "rect";
+                tool.strokeStyle="lightpink";
+                tool.lineWidth=rectSize;
+            }
+        })
+        line.addEventListener("click", function (e) {
+            if (ctool == "line") {
+                options[3].style.display = "flex";
+            }
+            else {
+                // eraser.style.border="1px solid red";
+                for (let i = 0; i < options.length; i++) {
+                    options[i].style.display = "none";
+                }
+                ctool = "line";
+                tool.strokeStyle="lightpink";
+                tool.lineWidth=lineSize;
+            }
+        })
+    </script>
+
+    <script>
+        // let canvasBoard = document.querySelector("canvas");
+        // let tool = canvasBoard.getContext("2d");
+        // canvasBoard.height = window.innerHeight;
+        // canvasBoard.width = window.innerWidth;
+        // tool.strokeStyle="lightpink";
+        // let body = document.querySelector("body");
+        // let boardTop = canvasBoard.getBoundingClientRect().top;
+        // let boardLeft = canvasBoard.getBoundingClientRect().left;
+
+        let iX, iY, fX, fY;
+        
+        let drawing = false;
+        body.addEventListener("mousemove", function (e) {
+            if (drawing == false)
+                return;
+                
+
+                    fX = e.clientX - boardLeft;
+                    fY = e.clientY - boardTop;
+                    // tool.beginPath();
+                    tool.lineTo(fX, fY);
+                    tool.stroke();
+                    iX = fX;
+                    iY = fY;
+                
+
+        })
+        body.addEventListener("mousedown", function (e) {
+
+            iX = e.clientX - boardLeft;
+            iY = e.clientY - boardTop;
+            if (ctool == "pencil" || ctool=="eraser") {
+
+                drawing = true;
+                tool.beginPath();
+                tool.moveTo(iX, iY);
+            }
+        })
+        // body.addEventListener("mousedown",function(){
+        //     drawing=true;
+        //     tool.beginPath();
+        //     tool.moveTo(e.clientX-boardLeft,e.clientY -boardTop);
+        // })
+        body.addEventListener("mouseup", function (e) {
+            if (ctool == "pencil" || ctool=="eraser") {
+
+                drawing = false;
+            }
+            else if(ctool=="rect" || ctool=="line"){
+                fX = e.clientX-boardLeft;
+        fY=e.clientY -boardTop;
+        let width = fX - iX;
+        let height = fY - iY;
+         if (ctool == "rect") {
+
+            tool.strokeRect(iX, iY, width, height);
+        }
+        else if(ctool=="line"){
+            // console.log("pencil is pending...");
+            tool.beginPath();
+            tool.moveTo(iX, iY);
+            tool.lineTo(fX, fY);
+            tool.stroke();
+        }
+            }
+        })
+    </script>
+       <script>
+        // let colorarea=document.querySelector(".color-area");
+        let redcolor=document.querySelector(".red");
+        let greencolor=document.querySelector(".green");
+        let bluecolor=document.querySelector(".blue");
+        // colorarea.style.backgroundColor="lightcyan";
+
+        redcolor.addEventListener("click",function(){
+            tool.strokeStyle="lightpink";
+        })
+        greencolor.addEventListener("click",function(){
+            tool.strokeStyle="lightgreen";
+        })
+        bluecolor.addEventListener("click",function(){
+            tool.strokeStyle="lightblue";
+        })
+    </script>
+    <script>
+        let pencilSize=5;
+        let eraserSize=5;
+        let lineSize=5;
+        let rectSize=5;
+
+                let sizeboxArr=document.querySelectorAll(".size-box");
+   
+        sizeboxArr[0].addEventListener("click",function(e){
+            let elems=["size1","size2","size3","size4"];
+            //event initially occur
+           //  console.log(e.target);
+            let alltheclasses=e.target.classList;
+            let firstclass=alltheclasses[0];
+            let test=elems.includes(firstclass);
+          if(test){
+            //   console.log(firstclass);
+            if(firstclass=="size1"){
+                pencilSize=5;
+            }
+            else if(firstclass=="size2"){
+                pencilSize=10;
+            }
+            else if(firstclass=="size3"){
+                pencilSize=15;
+            }
+            else if(firstclass=="size4"){
+                pencilSize=20;
+            }
+          }
+          console.log("pencilsize"+pencilSize);
+          tool.lineWidth=pencilSize;
+
+            //event listener
+            // console.log(e.currentTarget);
+        })
+        sizeboxArr[1].addEventListener("click",function(e){
+            let elems=["size1","size2","size3","size4"];
+            //event initially occur
+           //  console.log(e.target);
+            let alltheclasses=e.target.classList;
+            let firstclass=alltheclasses[0];
+            let test=elems.includes(firstclass);
+          if(test){
+            //   console.log(firstclass);
+            if(firstclass=="size1"){
+                eraserSize=5;
+            }
+            else if(firstclass=="size2"){
+                eraserSize=10;
+            }
+            else if(firstclass=="size3"){
+                eraserSize=15;
+            }
+            else if(firstclass=="size4"){
+                eraserSize=20;
+            }
+          }
+
+            //event listener
+            // console.log(e.currentTarget);
+            tool.lineWidth=eraserSize;
+        })
+        sizeboxArr[3].addEventListener("click",function(e){
+            let elems=["size1","size2","size3","size4"];
+            //event initially occur
+           //  console.log(e.target);
+            let alltheclasses=e.target.classList;
+            let firstclass=alltheclasses[0];
+            let test=elems.includes(firstclass);
+          if(test){
+            //   console.log(firstclass);
+            if(firstclass=="size1"){
+                lineSize=5;
+            }
+            else if(firstclass=="size2"){
+                lineSize=10;
+            }
+            else if(firstclass=="size3"){
+                lineSize=15;
+            }
+            else if(firstclass=="size4"){
+                lineSize=20;
+            }
+          }
+
+            //event listener
+            // console.log(e.currentTarget);
+            tool.lineWidth=lineSize;
+        })
+        sizeboxArr[2].addEventListener("click",function(e){
+            let elems=["size1","size2","size3","size4"];
+            //event initially occur
+           //  console.log(e.target);
+            let alltheclasses=e.target.classList;
+            let firstclass=alltheclasses[0];
+            let test=elems.includes(firstclass);
+          if(test){
+            //   console.log(firstclass);
+            if(firstclass=="size1"){
+                rectSize=5;
+            }
+            else if(firstclass=="size2"){
+                rectSize=10;
+            }
+            else if(firstclass=="size3"){
+                rectSize=15;
+            }
+            else if(firstclass=="size4"){
+                rectSize=20;
+            }
+          }
+
+            //event listener
+            // console.log(e.currentTarget);
+            tool.lineWidth=rectSize;
+        })
+  
+    
+        </script>
+        <script src="sticky.js"></script>
+</body>
+
+</html>
+

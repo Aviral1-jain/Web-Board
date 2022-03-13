@@ -1,0 +1,40 @@
+
+let stickey=document.querySelector("#sticky");
+// let body=document.querySelector("body");
+sticky.addEventListener("click",function(e){
+let sticky=document.createElement("div");
+sticky.setAttribute("class","sticky");
+sticky.innerHTML=`<div class="navbar">
+    <div class="close">
+
+    </div>
+    <div class="minimize">
+
+    </div>
+</div>
+<textarea name="" id="" cols="30" rows="10" class="textarea"></textarea>`;
+body.appendChild(sticky);
+
+
+    let minimize=sticky.querySelector(".minimize");
+    let close=sticky.querySelector(".close");
+    let textArea=sticky.querySelector("textarea");
+    let isclosed=false;
+    
+
+    
+    minimize.addEventListener("click",function(e){
+        if(isclosed==false){
+
+            textArea.style.display="none";
+        }
+        else{
+            textArea.style.display="block";
+        }
+        isclosed=!isclosed;
+
+})
+close.addEventListener("click",function(e){
+sticky.remove();
+})
+})
